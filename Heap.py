@@ -2,6 +2,20 @@
 import random
 
 class Heap(object):
+    def update(self, cost, item):
+        raise NotImplementedError
+    def add(self, cost, item):
+        raise NotImplementedError
+    def delete(self, item):
+        raise NotImplementedError
+    def deleteMin(self):
+        raise NotImplementedError
+    def findmin(self):
+        raise NotImplementedError
+    def merge(self, h):
+        raise NotImplementedError
+
+class BinaryHeap(Heap):
     def __init__(self):
         self.data = []
         self.index = {}
@@ -77,6 +91,10 @@ class Heap(object):
         self._upheap(index)
         self._downheap(index)
 
+    def update(self, key, item):
+        assert item in self.index
+        self._update(key, item)
+
     def add(self, cost, item):
         if item not in self.index:
             self.index[item] = self.size
@@ -90,7 +108,12 @@ class Heap(object):
             self._update(key, item)
         print "ADD %s, %s, %d" %(str(self.index), str(self.data), self.size)
 
-    def remove(self):
+    def findmin(self):
+        if self.size == 0:
+            return None, None
+        return self.data[0]
+
+    def deleteMin(self):
         cost, item = self.data[0]
         del self.index[item]
         if(self.size == 1):
@@ -103,15 +126,8 @@ class Heap(object):
         print "REMOVE %s, %s, %d" %(str(self.index), str(self.data), self.size)
         return cost, item
 
-#def Djikstra(G, v1, v2):
-#    """
-#    Implement the Djikstras algorithm starting from node v1 to v2
-#    Return the edges
-#    """
-
-
 if __name__ == "__main__":
-    h = Heap()
+    h = BinaryHeap()
     N = 100000
     items = [random.randint(1, 1000) for i in range(N)]
     i = 0

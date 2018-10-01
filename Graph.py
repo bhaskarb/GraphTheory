@@ -138,7 +138,7 @@ class Graph(object):
     def adjMatrix(self):
         verts = self.vertices.keys()
         n = len(verts)
-        mat = np.zeros((n, n))
+        mat = np.full((n, n), np.inf)
         for row in range(n):
             vert = verts[row]
             edges = self.edges[vert]
@@ -169,4 +169,4 @@ if __name__ == "__main__":
     g.add_vertex(range(N))
     for i in range(1, N):
         g.add_edge(i-1, range(N))
-    print g 
+    print g.adjMatrix() 

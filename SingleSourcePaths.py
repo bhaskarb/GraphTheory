@@ -1,4 +1,4 @@
-from Heap import Heap
+from Heap import BinaryHeap
 import Random
 import sys
 
@@ -8,7 +8,7 @@ def Djikstra(G, v1, v2=None):
     Implement the Djikstras algorithm starting from node v1
     Return the edges
     """
-    minNodes = Heap()
+    minNodes = BinaryHeap()
     minNodes.add(0, v1)
     for key in G.vertices.keys():
         G.vertices[key] = (None, None)
