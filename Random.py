@@ -59,7 +59,7 @@ def erdos_renyi(n, p, directed=False):
         return G  
     for i in range(n):
         for j in range(n):
-            if random.random() < p and ((directed and i > j) or (not directed and i != j)):
+            if random.random() < p and ((not directed and i < j) or (directed and i != j)):
                 G.add_edge(i, j)
     return G
 
