@@ -1,5 +1,6 @@
 from Heap import Heap
 import Random
+import sys
 
 def Djikstra(G, v1, v2=None):
     """
@@ -24,8 +25,32 @@ def Djikstra(G, v1, v2=None):
                 minNodes.add(ndist, otherv)
     return G.vertices
 
+def BellmannFord(G, v1, v2=None):
+    """
+    Single Source shortest path generic case where weights can be negative
+    This is a O(VE) algorithm
+    """
+    for key in G.vertices.keys():
+        G.vertices[key] = (sys.float_info.max, None)
+    G.vertices[v1] = (0, None)
+    for i in range(len(G.vertices.keys())):
+        for vkey, edges in G.edges.items():
+            vw = G.vertices[vkey][0]
+            if(vw < sys.float_info.max):
+                for ovkey, weight in edges.items():
+                    ovw = G.vertices[ovkey][0] 
+                    if vw + weight < ovw:
+                        G.vertices[ovkey] = (vw + weight, vkey)
+
+    for vkey, edges in G.edges.items():
+        for ovkey, weight in edges.items():
+            if G.vertices[vkey][0] + weight < G.vertices[ovkey][0]:
+                assert "Graph with a negative-weight cycle"
+
+    return G.vertices
 
 if __name__=="__main__":
     G = Random.path_graph(10)
     print Djikstra(G, 0)
+    print BellmannFord(G, 0)
 
