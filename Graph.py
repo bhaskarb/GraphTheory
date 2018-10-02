@@ -135,10 +135,10 @@ class Graph(object):
             return []
         return self.edges[x].keys()
 
-    def adjMatrix(self):
+    def adjMatrix(self, nonEdgeWeight=0.0):
         verts = self.vertices.keys()
         n = len(verts)
-        mat = np.full((n, n), np.inf)
+        mat = np.full((n, n), nonEdgeWeight)
         for row in range(n):
             vert = verts[row]
             edges = self.edges[vert]

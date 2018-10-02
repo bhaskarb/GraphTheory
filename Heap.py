@@ -1,5 +1,8 @@
 #Implement a heap
+import logging 
 import random
+
+#logger = logging.get#logger(__name__)
 
 class Heap(object):
     def update(self, cost, item):
@@ -45,24 +48,24 @@ class BinaryHeap(Heap):
         ri = self._child(ci, False)
         ckey, citem = self.data[ci]
         mi = ci
-        #print ci, ckey, citem
+        #logger.debug(ci, ckey, citem)
         if li >=0 and ri >=0:
             lkey, litem = self.data[li]
             rkey, ritem = self.data[ri]
-            #print li, lkey, litem
-            #print ri, rkey, ritem
+            #logger.debug( li, lkey, litem)
+            #logger.debug( ri, rkey, ritem)
             if lkey < ckey and lkey <= rkey:
                 mi, mkey, mitem = li, lkey, litem
             elif rkey < ckey and rkey  < lkey:
                 mi, mkey, mitem = ri, rkey, ritem
         elif li >=0:
             lkey, litem = self.data[li]
-            #print li, lkey, litem
+            #logger.debug( li, lkey, litem)
             if lkey < ckey:
                 mi, mkey, mitem = li, lkey, litem
         elif ri >=0:
             rkey, ritem = self.data[ri]
-            #print ri, rkey, ritem
+            #logger.debug( ri, rkey, ritem)
             if rkey < ckey:
                 mi, mkey, mitem = ri, rkey, ritem
         if mi != ci:
@@ -85,7 +88,7 @@ class BinaryHeap(Heap):
                 self._upheap(pi)
 
     def _update(self, key, item):
-        print self.index
+        #logger.debug("UPDATE: %s" %(str(self.index)))
         index = self.index[item]
         self.data[index] = (key, item)
         self._upheap(index)
@@ -106,7 +109,7 @@ class BinaryHeap(Heap):
             self.size += 1
         else:
             self._update(key, item)
-        print "ADD %s, %s, %d" %(str(self.index), str(self.data), self.size)
+        #logger.debug("ADD %s, %s, %d" %(str(self.index), str(self.data), self.size))
 
     def findmin(self):
         if self.size == 0:
@@ -121,14 +124,14 @@ class BinaryHeap(Heap):
         else:
             self.data[0] = self.data[self.size - 1]
             self.size = self.size - 1
-            #print self.data[0:self.size]
             self._downheap(0)
-        print "REMOVE %s, %s, %d" %(str(self.index), str(self.data), self.size)
+        #logger.debug("REMOVE %s, %s, %d" %(str(self.index), str(self.data[0:self.size]), self.size))
         return cost, item
 
 if __name__ == "__main__":
     h = BinaryHeap()
     N = 100000
+    #logger.setLevel(logging.INFO)
     items = [random.randint(1, 1000) for i in range(N)]
     i = 0
     for item in items:
@@ -136,6 +139,5 @@ if __name__ == "__main__":
         i = i + 1
     prevkey = None
     while not h.empty():
-        newkey = h.remove()
+        newkey = h.deleteMin()
         assert prevkey == None or prevkey <= newkey
-        #print h.data[0:h.size]
