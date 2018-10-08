@@ -2,7 +2,7 @@
 import logging 
 import random
 
-#logger = logging.get#logger(__name__)
+#logger = logging.getLogger(__name__)
 
 class Heap(object):
     def update(self, cost, item):
