@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 def FloydWarshall(G):
     """
     All Pair shortest path
-    O(n^3) will deal with negative edges
+    O(V^3) will deal with negative edges
     """
     dist = G.adjMatrix(np.inf)
     v, col = dist.shape
