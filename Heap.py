@@ -2,7 +2,7 @@
 import logging 
 import random
 
-#logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 class Heap(object):
     def update(self, cost, item):
@@ -27,7 +27,7 @@ class BinaryHeap(Heap):
     def _parent(self, i):
         if i == 0 or self.size == 0:
             return -1
-        return i/2
+        return int(i/2)
 
     def _child(self, i, left=True):
         if self.size == 0:
@@ -108,7 +108,7 @@ class BinaryHeap(Heap):
             self._upheap(self.size)
             self.size += 1
         else:
-            self._update(key, item)
+            self._update(cost, item)
         #logger.debug("ADD %s, %s, %d" %(str(self.index), str(self.data), self.size))
 
     def findmin(self):
@@ -118,6 +118,7 @@ class BinaryHeap(Heap):
 
     def deleteMin(self):
         cost, item = self.data[0]
+        assert item in self.index
         del self.index[item]
         if(self.size == 1):
             self.size = 0
@@ -130,8 +131,9 @@ class BinaryHeap(Heap):
 
 if __name__ == "__main__":
     h = BinaryHeap()
-    N = 100000
-    #logger.setLevel(logging.INFO)
+    N = 10000
+    logging.basicConfig(filename='heap.txt', level=logging.INFO)
+    logger.disabled = True
     items = [random.randint(1, 1000) for i in range(N)]
     i = 0
     for item in items:

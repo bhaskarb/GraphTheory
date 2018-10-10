@@ -1,4 +1,5 @@
 import numpy as np
+from SingleSourcePaths import Djikstra 
 from Heap import BinaryHeap
 import Random
 import sys
@@ -36,8 +37,28 @@ def FloydWarshall(G):
         logger.debug(closest)
     return dist, closest
 
+
+def Djikstra_all(G):
+    """
+    Run Djikstra on all the vertices
+    """
+    vertices = G.vertices.keys()
+    v = len(vertices)
+    dist = np.full((v, v), np.inf)
+    closest = np.full((v,v), np.inf) 
+    for i in range(v):
+        vertex = vertices[i] 
+        vdist = Djikstra(G, vertex)
+        for j in range(v):
+            othervertex = vertices[j]
+            if dist[i][j] > vdist[othervertex][0]:
+                dist[i][j] = vdist[othervertex][0]
+                closest[i][j] = i 
+    return dist, closest
+
 if __name__=="__main__":
     G = Random.random_skew_graph(10, 0.2)
     np.set_printoptions(precision=2)
-    print FloydWarshal(G)
+    print FloydWarshall(G)
+    print Djikstra_all(G)
 

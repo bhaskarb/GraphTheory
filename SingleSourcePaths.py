@@ -1,3 +1,4 @@
+import logging
 from Heap import BinaryHeap
 import Random
 import sys
@@ -14,7 +15,7 @@ def Djikstra(G, v1, v2=None):
         G.vertices[key] = (None, None)
     G.vertices[v1] = (0, None)
     while not minNodes.empty():
-        (dist, v) = minNodes.remove()
+        (dist, v) = minNodes.deleteMin()
         assert G.vertices[v] != None
         for otherv in G.neighbours(v):
             weight = G.get_edge_value(v, otherv)
@@ -50,7 +51,10 @@ def BellmannFord(G, v1, v2=None):
     return G.vertices
 
 if __name__=="__main__":
-    G = Random.path_graph(10)
+    #G = Random.path_graph(10)
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+    G = Random.random_skew_graph(10, 0.2)
     print Djikstra(G, 0)
     print BellmannFord(G, 0)
 
