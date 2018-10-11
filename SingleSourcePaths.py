@@ -53,8 +53,14 @@ def BellmannFord(G, v1, v2=None):
 if __name__=="__main__":
     #G = Random.path_graph(10)
     logger = logging.getLogger(__name__)
+    logging.basicConfig(filename='ssp.txt', level=logging.INFO)
     logger.setLevel(logging.DEBUG)
-    G = Random.random_skew_graph(10, 0.2)
-    print Djikstra(G, 0)
-    print BellmannFord(G, 0)
+    G = Random.random_skew_graph(50, 0.2)
+    dj = Djikstra(G, 0)
+    print("DJIKSTRA:")
+    print(dj)
+    bf = BellmannFord(G, 0)
+    print("BELLMANN-FORD:")
+    print(bf)
+    assert bf == dj
 
