@@ -49,16 +49,21 @@ def Djikstra_all(G):
     for i in range(v):
         vertex = vertices[i] 
         vdist = Djikstra(G, vertex)
+        dist[i][i] = 0
         for j in range(v):
             othervertex = vertices[j]
-            if dist[i][j] > vdist[othervertex][0]:
+            if dist[i][j] > vdist[othervertex][0] and vdist[othervertex][1] != None:
                 dist[i][j] = vdist[othervertex][0]
-                closest[i][j] = i 
+                closest[i][j] = vdist[othervertex][1]
     return dist, closest
 
 if __name__=="__main__":
     G = Random.random_skew_graph(10, 0.2)
     np.set_printoptions(precision=2)
-    print FloydWarshall(G)
-    print Djikstra_all(G)
+    print G
+    distfw, closestfw = FloydWarshall(G)
+    distdj, closestdj = Djikstra_all(G)
+    print closestfw == closestdj 
+    print closestfw
+    print closestdj
 
